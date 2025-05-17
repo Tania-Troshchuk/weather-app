@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  # backend:
+  #   build:
+  #     context: ./Backend
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DB_HOST=database
+  #     - DB_PORT=5432
+  #     - DB_USERNAME=postgres
+  #     - DB_PASSWORD=postgres
+  #     - DB_DATABASE=weather_db
+  #   depends_on:
+  #     - database
+
+
+  # frontend:
+  #   build:
+  #     context: ./Frontend
+  #   ports:
+  #     - "8080:80"
+
+  database:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: weather_db
+    ports:
+      - "5433:5432"
+    # command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./Backend
+    # volumes:
+    #   - ./Backend:/app
+    ports:
+      - "4000:3000"
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=weather_db
+      - WEATHER_API_KEY='8d2d66c5d47044719eb132934251705'
+    # command: sh -c "npm run build && node dist/src/main"
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
