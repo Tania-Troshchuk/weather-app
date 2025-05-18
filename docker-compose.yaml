@@ -36,7 +36,9 @@ services:
     networks:
       - app-network
 
-  backend:
+  weather-backend:
+    hostname: weather-backend
+    container_name: weather-backend
     build:
       context: ./Backend
     # volumes:
@@ -51,6 +53,7 @@ services:
       - DB_DATABASE=weather_db
       - WEATHER_API_KEY='8d2d66c5d47044719eb132934251705'
     # command: sh -c "npm run build && node dist/src/main"
+    command: sh -c "npm run start:dev"
     depends_on:
       - database
     networks:

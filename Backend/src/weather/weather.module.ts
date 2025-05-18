@@ -1,9 +1,21 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { WeatherService } from './weather.service';
 import { WeatherController } from './weather.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Weather } from './weather.entity';
+import { HttpModule } from '@nestjs/axios';
+import { SubscriptionModule } from 'src/subscription/subscription.module';
+import { SubscriptionService } from 'src/subscription/subscription.service';
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([Weather]),
+    HttpModule,
+    forwardRef(() => SubscriptionModule)
+    // SubscriptionModule,
+  ],
+  exports: [WeatherService],
   providers: [WeatherService],
-  controllers: [WeatherController]
+  controllers: [WeatherController],
 })
 export class WeatherModule {}

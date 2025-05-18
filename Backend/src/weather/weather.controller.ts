@@ -1,4 +1,16 @@
-import { Controller } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import { WeatherService } from './weather.service';
 
 @Controller('weather')
-export class WeatherController {}
+export class WeatherController {
+  constructor(private weatherService: WeatherService) {}
+
+  @Get()
+  getCityWeather(@Query('city') city: string) {
+    if (!city) {
+      throw new BadRequestException('Invalid request');
+    }
+
+    return this.weatherService.getWeather(city);
+  }
+}

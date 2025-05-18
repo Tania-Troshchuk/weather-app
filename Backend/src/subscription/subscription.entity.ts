@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Weather } from 'src/weather/weather.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class Subscription {
@@ -16,4 +23,8 @@ export class Subscription {
 
   @Column({ default: false, nullable: true })
   confirmed: boolean;
+
+  @OneToOne(() => Weather)
+  @JoinColumn()
+  weather: Weather;
 }

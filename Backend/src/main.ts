@@ -5,7 +5,7 @@ import AppDataSource from '../data-source';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT ?? 4000;
+  const port = process.env.PORT || 4000;
 
   await AppDataSource.initialize();
   await AppDataSource.runMigrations();
