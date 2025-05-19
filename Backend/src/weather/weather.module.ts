@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weather } from './weather.entity';
 import { HttpModule } from '@nestjs/axios';
 import { SubscriptionModule } from 'src/subscription/subscription.module';
-import { SubscriptionService } from 'src/subscription/subscription.service';
+import { SubscriptionService } from 'src/subscription/services/subscription.service';
 
 @Module({
   imports: [

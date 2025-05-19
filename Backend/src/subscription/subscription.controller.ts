@@ -3,13 +3,16 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { SubscriptionService } from './subscription.service';
+import { SubscriptionService } from './services/subscription.service';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { WeatherService } from 'src/weather/weather.service';
+import { SubscriptionTokenService } from './services/subscription_token.service';
 
 @Controller()
 // @UsePipes(
@@ -20,6 +23,7 @@ import { WeatherService } from 'src/weather/weather.service';
 export class SubscriptionController {
   constructor(
     private subscriptionService: SubscriptionService,
+    private subscriptionTokenService: SubscriptionTokenService,
     private weatherService: WeatherService,
   ) {}
 
@@ -34,7 +38,9 @@ export class SubscriptionController {
       throw new ConflictException('Email already subscribed');
     }
 
-    const supportedCities = await this.weatherService.checkSupportedCity(body.city);
+    const supportedCities = await this.weatherService.checkSupportedCity(
+      body.city,
+    );
 
     if (!supportedCities?.length) {
       throw new BadRequestException('Invalid input');
@@ -44,5 +50,25 @@ export class SubscriptionController {
       await this.subscriptionService.createSubscription(body);
 
     return subscription;
+  }
+
+  @Get('confirm/:token')
+  async confirm(@Param('token') token: string): Promise<string> {
+    await this.subscriptionTokenService.verifyAndFindSubscription(
+      token,
+      'confirm',
+    );
+
+    return await this.subscriptionService.changeConfirmedStatus(token, true);
+  }
+
+  @Get('unsubscribe/:token')
+  async unsubscribe(@Param('token') token: string): Promise<string> {
+    await this.subscriptionTokenService.verifyAndFindSubscription(
+      token,
+      'unsubscribe',
+    );
+
+    return await this.subscriptionService.changeConfirmedStatus(token, false);
   }
 }

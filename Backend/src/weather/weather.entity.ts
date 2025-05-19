@@ -1,4 +1,4 @@
-import { Subscription } from 'src/subscription/subscription.entity';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

@@ -1,17 +1,24 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { SubscriptionService } from './subscription.service';
+import { SubscriptionService } from './services/subscription.service';
 import { SubscriptionController } from './subscription.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Subscription } from './subscription.entity';
+import { Subscription } from './entities/subscription.entity';
 import { WeatherModule } from 'src/weather/weather.module';
+import { SubscriptionToken } from './entities/subscription_token.entity';
+import { SubscriptionTokenService } from './services/subscription_token.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Subscription]),
+    TypeOrmModule.forFeature([Subscription, SubscriptionToken]),
     forwardRef(() => WeatherModule),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      // signOptions: { expiresIn: '7d' },
+    }),
   ],
   providers: [SubscriptionService],
   controllers: [SubscriptionController],
-  exports: [SubscriptionService],
+  exports: [SubscriptionService, SubscriptionTokenService],
 })
 export class SubscriptionModule {}

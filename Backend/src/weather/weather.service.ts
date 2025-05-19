@@ -11,8 +11,8 @@ import { In, Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { WeatherResponseDto } from './dto/weather-response.dto';
-import { Subscription } from 'src/subscription/subscription.entity';
-import { SubscriptionService } from '../subscription/subscription.service';
+import { Subscription } from 'src/subscription/entities/subscription.entity';
+import { SubscriptionService } from '../subscription/services/subscription.service';
 
 @Injectable()
 export class WeatherService {

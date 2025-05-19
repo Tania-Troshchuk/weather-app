@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Weather } from './src/weather/weather.entity';
-import { Subscription } from './src/subscription/subscription.entity';
+import { Subscription } from './src/subscription/entities/subscription.entity';
 
 const AppDataSource = new DataSource({
   type: 'postgres',
