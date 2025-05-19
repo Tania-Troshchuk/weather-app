@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { SubscriptionService } from './services/subscription.service';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
-import { WeatherService } from 'src/weather/weather.service';
+import { WeatherService } from 'src/weather/services/weather.service';
 import { SubscriptionTokenService } from './services/subscription_token.service';
 import { EmailService } from './services/email.service';
 import { EmailTemplates } from './entities/email_template';

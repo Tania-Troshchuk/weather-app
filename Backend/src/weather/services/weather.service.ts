@@ -6,13 +6,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Weather } from './weather.entity';
+import { Weather } from '../weather.entity';
 import { In, Repository } from 'typeorm';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { WeatherResponseDto } from './dto/weather-response.dto';
+import { WeatherResponseDto } from '../dto/weather-response.dto';
 import { Subscription } from 'src/subscription/entities/subscription.entity';
-import { SubscriptionService } from '../subscription/services/subscription.service';
+import { SubscriptionService } from '../../subscription/services/subscription.service';
 
 @Injectable()
 export class WeatherService {

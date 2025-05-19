@@ -1,5 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { WeatherService } from './weather.service';
+import { WeatherService } from './services/weather.service';
 import { WeatherController } from './weather.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weather } from './weather.entity';
