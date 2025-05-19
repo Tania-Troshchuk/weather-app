@@ -18,7 +18,7 @@ import { EmailService } from './services/email.service';
       // signOptions: { expiresIn: '7d' },
     }),
   ],
-  providers: [SubscriptionService],
+  providers: [SubscriptionService, SubscriptionTokenService, EmailService],
   controllers: [SubscriptionController],
   exports: [SubscriptionService, SubscriptionTokenService, EmailService],
 })

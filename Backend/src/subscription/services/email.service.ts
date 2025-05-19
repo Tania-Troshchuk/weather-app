@@ -11,7 +11,7 @@ export class EmailService {
 
   constructor() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.transporter = nodemailer.createTransport({
+    this.transporter = nodemailer?.createTransport({
       host: 'smtp.example.com',
       port: 587,
       secure: false,
