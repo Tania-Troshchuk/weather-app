@@ -20,15 +20,20 @@ export class EmailTemplates {
 
   static weatherUpdate(
     city: string,
-    forecast: string,
+    temperature: number,
+    humidity: number,
     unsubscribeUrl: string,
+    description?: string,
   ): EmailContent {
     return {
       subject: 'Weather updating',
       text: `
         <h2>Weather Update for ${city}</h2>
-        <p>${forecast}</p>
+        <p>Temperature: ${temperature ?? 'N/A'}</p>
         <hr/>
+        <p>Humidity: ${humidity ?? 'N/A'}</p>
+        <hr/>
+        ${description && `<p>Description: ${description ?? 'N/A'}</p><hr/>`}
         <p><a href="${unsubscribeUrl}">Unsubscribe</a> from this subscription</p>
       `,
     };
