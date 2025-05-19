@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateTables1747576062387 implements MigrationInterface {
-    name = 'CreateTables1747576062387'
+export class CreateWeatherAndSubscriptionTables1747576062387 implements MigrationInterface {
+    name = 'CreateWeatherAndSubscriptionTables1747576062387'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "weather" ("id" SERIAL NOT NULL, "temperature" double precision, "humidity" double precision, "description" character varying, CONSTRAINT "PK_af9937471586e6798a5e4865f2d" PRIMARY KEY ("id"))`);
