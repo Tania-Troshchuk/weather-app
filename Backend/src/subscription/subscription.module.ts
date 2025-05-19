@@ -1,13 +1,13 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { forwardRef, Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { SubscriptionService } from './services/subscription.service';
 import { SubscriptionController } from './subscription.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Subscription } from './entities/subscription.entity';
-import { WeatherModule } from 'src/weather/weather.module';
+import { WeatherModule } from '..//weather/weather.module';
 import { SubscriptionToken } from './entities/subscription_token.entity';
-import { SubscriptionTokenService } from './services/subscription_token.service';
-import { JwtModule } from '@nestjs/jwt';
 import { EmailService } from './services/email.service';
+import { SubscriptionTokenService } from './services/subscription_token.service';
 
 @Module({
   imports: [
