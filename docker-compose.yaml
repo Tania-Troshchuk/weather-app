@@ -41,8 +41,8 @@ services:
     container_name: weather-backend
     build:
       context: ./Backend
-    # volumes:
-    #   - ./Backend:/app
+    volumes:
+      - ./Backend:/app:rw
     ports:
       - "4000:3000"
     environment:
@@ -52,10 +52,10 @@ services:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - DB_DATABASE=weather_db
-      - WEATHER_API_KEY='8d2d66c5d47044719eb132934251705'
+      - WEATHER_API_KEY=8d2d66c5d47044719eb132934251705
       - JWT_SECRET='weather-jwt-secret'
     # command: sh -c "npm run build && node dist/src/main"
-    command: sh -c "npm run start:dev"
+    command: sh -c "npm run build && npm run start:dev"
     depends_on:
       - database
     networks:

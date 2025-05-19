@@ -3,8 +3,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -24,7 +24,11 @@ export class Subscription {
   @Column({ default: false, nullable: true })
   confirmed: boolean;
 
-  @OneToOne(() => Weather)
+  @ManyToOne(() => Weather, (weather) => weather.subscriptions, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+
   @JoinColumn()
   weather: Weather;
 }

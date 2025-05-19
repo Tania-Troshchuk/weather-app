@@ -4,30 +4,32 @@ import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubscriptionDto } from '../dto/create-subscription.dto';
 import { SubscriptionTokenService } from './subscription_token.service';
+import { WeatherService } from '../../weather/services/weather.service';
+import { Weather } from 'src/weather/weather.entity';
 
 @Injectable()
 export class SubscriptionService {
   constructor(
-    @InjectRepository(Subscription) private repo: Repository<Subscription>,
+    @InjectRepository(Subscription)
+    private repo: Repository<Subscription>,
     private readonly tokenService: SubscriptionTokenService,
     private readonly dataSource: DataSource,
+    // private readonly weatherService: WeatherService,
   ) {}
 
   async checkExisting(email: string) {
     const subscription = await this.repo.findOne({
-      where: { email, confirmed: true },
+      where: { email },
     });
 
     return !!subscription;
   }
 
-  async getCityWeatherList(city: string) {
-    const subscriptions = await this.repo.find({
-      where: { city },
-      relations: ['weather'],
+  async getConfirmedSubscription(frequency: 'daily' | 'hourly') {
+    return await this.repo.find({
+      where: { confirmed: true, frequency },
+      // relations: ['subscription'],
     });
-    console.log('subscriptions', subscriptions);
-    return subscriptions;
   }
 
   async createSubscription(data: CreateSubscriptionDto) {
@@ -98,5 +100,11 @@ export class SubscriptionService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async updateCitiesWeather(subscription: Subscription) {
+    const updatedSubscriptions = await this.repo.save(subscription);
+
+    return updatedSubscriptions;
   }
 }

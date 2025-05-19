@@ -18,13 +18,14 @@ export class EmailTemplates {
     };
   }
 
-  static weatherUpdate(
-    city: string,
-    temperature: number,
-    humidity: number,
-    unsubscribeUrl: string,
-    description?: string,
-  ): EmailContent {
+  static weatherUpdate(data: {
+    city: string;
+    temperature: number;
+    humidity: number;
+    unsubscribeUrl?: string;
+    description?: string;
+  }): EmailContent {
+    const { city, temperature, humidity, unsubscribeUrl, description } = data;
     return {
       subject: 'Weather updating',
       text: `
@@ -34,27 +35,7 @@ export class EmailTemplates {
         <p>Humidity: ${humidity ?? 'N/A'}</p>
         <hr/>
         ${description && `<p>Description: ${description ?? 'N/A'}</p><hr/>`}
-        <p><a href="${unsubscribeUrl}">Unsubscribe</a> from this subscription</p>
-      `,
-    };
-  }
-
-  static subscriptionConfirmed(): EmailContent {
-    return {
-      subject: 'Subscription confirmed',
-      text: `
-        <h2>Subscription Confirmed</h2>
-        <p>Your subscription has been successfully confirmed. You will now receive weather updates as selected.</p>
-      `,
-    };
-  }
-
-  static unsubscribeConfirmation(): EmailContent {
-    return {
-      subject: 'Unsubscribe confirmed',
-      text: `
-        <h2>You've unsubscribed</h2>
-        <p>You have successfully unsubscribed from our weather updates.</p>
+        ${unsubscribeUrl && `<p><a href="${unsubscribeUrl}">Unsubscribe</a> from this subscription</p>`}
       `,
     };
   }

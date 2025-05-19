@@ -14,7 +14,7 @@ async function bootstrap() {
   //   methods: 'GET, POST',
   // });
 
-  // app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api');
   // app.enableCors({
   //   origin: true, // Allow all origins in development
   //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

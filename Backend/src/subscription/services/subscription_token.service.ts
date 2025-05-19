@@ -10,7 +10,6 @@ import { QueryRunner, Repository } from 'typeorm';
 import { Subscription } from '../entities/subscription.entity';
 import { SubscriptionToken } from '../entities/subscription_token.entity';
 
-
 @Injectable()
 export class SubscriptionTokenService {
   constructor(
@@ -29,9 +28,9 @@ export class SubscriptionTokenService {
       type,
     };
 
-    const token = this.jwtService.sign(payload, {
-      expiresIn: '7d',
-    });
+    const options = type === 'confirm' ? { expiresIn: '14d' } : {};
+
+    const token = this.jwtService.sign(payload, options);
 
     const tokenEntity = queryRunner.manager.create(SubscriptionToken, {
       token,

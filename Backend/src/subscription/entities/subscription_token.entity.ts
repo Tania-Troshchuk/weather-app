@@ -1,6 +1,5 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -22,8 +21,4 @@ export class SubscriptionToken {
   @ManyToOne(() => Subscription, { onDelete: 'CASCADE' })
   @JoinColumn()
   subscription: Subscription;
-
-  @CreateDateColumn()
-  createdAt: Date;
 }
-

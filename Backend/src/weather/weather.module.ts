@@ -5,17 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Weather } from './weather.entity';
 import { HttpModule } from '@nestjs/axios';
 import { SubscriptionModule } from 'src/subscription/subscription.module';
-import { SubscriptionService } from 'src/subscription/services/subscription.service';
+import { WeatherCronJobService } from './services/weather_cron_job.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Weather]),
     HttpModule,
-    forwardRef(() => SubscriptionModule)
-    // SubscriptionModule,
+    forwardRef(() => SubscriptionModule),
   ],
-  exports: [WeatherService],
-  providers: [WeatherService],
+  providers: [WeatherService, WeatherCronJobService],
   controllers: [WeatherController],
+  exports: [WeatherService, WeatherCronJobService],
 })
 export class WeatherModule {}

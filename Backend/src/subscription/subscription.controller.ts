@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   Post,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import { WeatherService } from 'src/weather/services/weather.service';
 import { SubscriptionTokenService } from './services/subscription_token.service';
 import { EmailService } from './services/email.service';
 import { EmailTemplates } from './entities/email_template';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 // @UsePipes(
@@ -31,6 +33,7 @@ export class SubscriptionController {
   ) {}
 
   @Post('subscribe')
+  @UseInterceptors(FileInterceptor('formData'))
   async createSubscription(@Body() body: CreateSubscriptionDto) {
     const isExistSubscription = await this.subscriptionService.checkExisting(
       body.email,
@@ -63,7 +66,7 @@ export class SubscriptionController {
       );
     }
 
-    return subscription;
+    return 'Subscription successful. Confirmation email sent.';
   }
 
   @Get('confirm/:token')
@@ -73,13 +76,9 @@ export class SubscriptionController {
       'confirm',
     );
 
-    const updatedSubscription =
-      await this.subscriptionService.changeConfirmedStatus(token, true);
+    await this.subscriptionService.changeConfirmedStatus(token, true);
 
-    const { subject, text } = EmailTemplates.subscriptionConfirmed();
-    await this.emailService.sendMail(updatedSubscription.email, subject, text);
-
-    return updatedSubscription;
+    return 'Subscription confirmed successfully';
   }
 
   @Get('unsubscribe/:token')
@@ -89,11 +88,8 @@ export class SubscriptionController {
       'unsubscribe',
     );
 
-    const updatedSubscription = await this.subscriptionService.changeConfirmedStatus(token, false);
+    await this.subscriptionService.changeConfirmedStatus(token, false);
 
-    const { subject, text } = EmailTemplates.unsubscribeConfirmation();
-    await this.emailService.sendMail(updatedSubscription.email, subject, text);
-
-    return updatedSubscription;
+    return 'Unsubscribed successfully';
   }
 }
