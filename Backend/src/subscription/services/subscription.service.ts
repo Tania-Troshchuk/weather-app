@@ -13,8 +13,10 @@ export class SubscriptionService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async checkExisting(city: string, email: string) {
-    const subscription = await this.repo.findOne({ where: { city, email } });
+  async checkExisting(email: string) {
+    const subscription = await this.repo.findOne({
+      where: { email, confirmed: true },
+    });
 
     return !!subscription;
   }

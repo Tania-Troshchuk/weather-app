@@ -30,8 +30,7 @@ export class SubscriptionController {
   @Post('subscribe')
   async createSubscription(@Body() body: CreateSubscriptionDto) {
     const isExistSubscription = await this.subscriptionService.checkExisting(
-      body.city,
-      body.email,
+      body.email
     );
 
     if (isExistSubscription) {
