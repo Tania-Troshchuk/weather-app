@@ -68,7 +68,7 @@ export class SubscriptionService {
   async changeConfirmedStatus(
     token: string,
     confirmed: boolean,
-  ): Promise<string> {
+  ): Promise<Subscription> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -90,7 +90,8 @@ export class SubscriptionService {
       await this.tokenService.deleteToken(token, queryRunner);
 
       await queryRunner.commitTransaction();
-      return 'Subscription confirmed successfully.';
+
+      return subscription;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;

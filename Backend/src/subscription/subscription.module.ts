@@ -7,6 +7,7 @@ import { WeatherModule } from 'src/weather/weather.module';
 import { SubscriptionToken } from './entities/subscription_token.entity';
 import { SubscriptionTokenService } from './services/subscription_token.service';
 import { JwtModule } from '@nestjs/jwt';
+import { EmailService } from './services/email.service';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   providers: [SubscriptionService],
   controllers: [SubscriptionController],
-  exports: [SubscriptionService, SubscriptionTokenService],
+  exports: [SubscriptionService, SubscriptionTokenService, EmailService],
 })
 export class SubscriptionModule {}
